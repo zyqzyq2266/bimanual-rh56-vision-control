@@ -3,7 +3,7 @@
 serial_port: COM4
 baudrate: 115200
 hand_id: 1
-motion_scale: 1.0
+motion_scale: 0.2
 send_hz: 10
 deadband: 8
 min_angles: [0, 0, 0, 0, 0, 0]
