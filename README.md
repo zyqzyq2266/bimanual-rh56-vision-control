@@ -188,15 +188,39 @@ yinshi-dexterous-hand/
 
 ## 演示效果
 
-为保护现场人员隐私，当前公开仓库**不包含演示视频**。建议后续录制时只拍摄
-灵巧手与控制窗口，不显示人脸、账号、聊天记录或本机路径；可将处理后的 GIF
-放在 `docs/demo.gif`，然后在这里添加：
+![灵巧手手指跟随演示](demo.gif)
 
-```markdown
-![灵巧手跟随演示](docs/demo.gif)
-```
+演示展示摄像头手部关键点识别与 RH56DFTP-2L 左手灵巧手的实时手指跟随效果。
+
+[观看完整 MP4 演示](demo.mp4)
 
 ## 项目文档
+
+## 双手同时跟随
+
+双手模式使用同一个摄像头窗口和两条独立串口。镜像画面中，MediaPipe 通常把物理左手标记为 `Right`、物理右手标记为 `Left`，程序按下表固定路由：
+
+| 摄像头中的物理手 | MediaPipe 标签 | 灵巧手 | 串口 |
+| --- | --- | --- | --- |
+| 左手 | `Right` | 左 RH56DFTP-2L | `COM3` |
+| 右手 | `Left` | 右 RH56DFTP-2L | `COM4` |
+
+先创建两份本机配置文件。它们不会被 Git 提交，便于保存各自的标定参数：
+
+```powershell
+Copy-Item config.left.example.yaml config.left.yaml
+Copy-Item config.right.example.yaml config.right.yaml
+```
+
+首次只验证识别画面，不打开 COM3、COM4：
+
+```powershell
+.\.venv\Scripts\python.exe -m hand_tracking.dual_app --left-config config.left.yaml --right-config config.right.yaml --no-serial
+```
+
+确认两只手均能识别后，关闭因时上位机，确认手指周围无障碍物，再双击 `启动双手灵巧手跟随.bat`。按 `Space` 会给两只手分别发送各自配置中的 `open_pose`，按 `Esc` 同时退出并释放两个串口。
+
+右手的轴方向、拇指行程和安全限位必须在 `config.right.yaml` 中单独标定。首次实机运行请维持 `motion_scale: 0.2`，每次只测试一根手指；不要直接复制左手的 `invert_axes`。
 
 - [项目报告](docs/PROJECT_REPORT.md)：构建过程、问题、解决方法与最终成果。
 - [代码](hand_tracking/)：可直接查看摄像头、映射、串口协议和安全模块实现。

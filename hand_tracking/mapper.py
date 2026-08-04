@@ -5,7 +5,6 @@ from collections.abc import Sequence
 
 
 Point = Sequence[float]
-THUMB_ROTATION_HOLD = 1000
 FINGER_CURL_GAIN = 13.0
 THUMB_FULL_FLEX_ANGLE = 70.0
 
@@ -31,6 +30,18 @@ def _thumb_curl(landmarks: Sequence[Point]) -> int:
     return max(0, min(1000, round((thumb_angle - THUMB_FULL_FLEX_ANGLE) * 1000.0 / (180.0 - THUMB_FULL_FLEX_ANGLE))))
 
 
+def _thumb_rotation(landmarks: Sequence[Point]) -> int:
+    """Map the signed thumb-base spread from the palm plane to 0..1000."""
+    palm_x = landmarks[5][0] - landmarks[17][0]
+    palm_y = landmarks[5][1] - landmarks[17][1]
+    thumb_x = landmarks[2][0] - landmarks[1][0]
+    thumb_y = landmarks[2][1] - landmarks[1][1]
+    cross = palm_x * thumb_y - palm_y * thumb_x
+    dot = palm_x * thumb_x + palm_y * thumb_y
+    spread_degrees = math.degrees(math.atan2(cross, dot))
+    return max(0, min(1000, round((spread_degrees + 90.0) * 1000.0 / 180.0)))
+
+
 def map_left_hand(landmarks: Sequence[Point], invert_axes: Sequence[bool]) -> list[int]:
     """Map 21 MediaPipe left-hand landmarks to RH56's six-axis order."""
     if len(landmarks) != 21:
@@ -43,6 +54,6 @@ def map_left_hand(landmarks: Sequence[Point], invert_axes: Sequence[bool]) -> li
         _curl(landmarks, 9, 10, 11, 12),
         _curl(landmarks, 5, 6, 7, 8),
         _thumb_curl(landmarks),
-        THUMB_ROTATION_HOLD,
+        _thumb_rotation(landmarks),
     ]
     return [1000 - value if invert_axes[index] else value for index, value in enumerate(angles)]

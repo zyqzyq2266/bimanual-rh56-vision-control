@@ -39,21 +39,20 @@ def test_thumb_curl_maps_straight_and_flexed_thumb_joint_angles():
     assert flexed[4] == 0
 
 
-def test_thumb_rotation_stays_at_calibrated_hold_when_thumb_tip_moves_horizontally():
-    def hand_with_thumb_tip(thumb_tip_x: float):
+def test_thumb_rotation_follows_thumb_base_spread():
+    def hand_with_thumb_base(thumb_mcp_y: float):
         landmarks = [(0.0, 0.0, 0.0)] * 21
-        landmarks[0] = (0.0, 0.0, 0.0)
-        landmarks[2] = (0.4, 0.0, 0.0)
-        landmarks[4] = (thumb_tip_x, 0.2, 0.0)
+        landmarks[1] = (0.0, 0.0, 0.0)
+        landmarks[2] = (0.0, thumb_mcp_y, 0.0)
         landmarks[5] = (1.0, 0.0, 0.0)
         landmarks[17] = (-1.0, 0.0, 0.0)
         return landmarks
 
-    inward = map_left_hand(hand_with_thumb_tip(0.1), [False] * 6)
-    outward = map_left_hand(hand_with_thumb_tip(0.9), [False] * 6)
+    upward = map_left_hand(hand_with_thumb_base(-1.0), [False] * 6)
+    downward = map_left_hand(hand_with_thumb_base(1.0), [False] * 6)
 
-    assert inward[5] == 1000
-    assert outward[5] == 1000
+    assert upward[5] != downward[5]
+    assert {upward[5], downward[5]} == {0, 1000}
 
 
 def test_thumb_elevation_ignores_wrist_landmark_jitter():

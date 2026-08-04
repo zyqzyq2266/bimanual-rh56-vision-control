@@ -2,7 +2,7 @@ import struct
 
 import pytest
 
-from hand_tracking.rh56 import RH56Serial, build_write_packet
+from hand_tracking.rh56 import RH56Serial, build_read_packet, build_write_packet
 
 
 class FakeSerial:
@@ -24,6 +24,12 @@ def test_angle_packet_uses_documented_header_address_and_checksum():
     assert packet[:2] == b"\xeb\x90"
     assert packet[5:7] == bytes([0xCE, 0x05])
     assert packet[-1] == sum(packet[2:-1]) & 0xFF
+
+
+def test_read_packet_uses_documented_register_length_and_checksum():
+    packet = build_read_packet(hand_id=1, address=1546, length=12)
+
+    assert packet == bytes([0xEB, 0x90, 0x01, 0x04, 0x11, 0x0A, 0x06, 0x0C, 0x32])
 
 
 def test_set_angles_rejects_wrong_axis_count():

@@ -9,10 +9,20 @@ import serial
 ANGLE_SET_ADDRESS = 1486
 REQUEST_HEADER = b"\xeb\x90"
 WRITE_FLAG = 0x12
+READ_FLAG = 0x11
 
 
 def build_write_packet(hand_id: int, address: int, data: bytes) -> bytes:
     body = bytes([hand_id, len(data) + 3, WRITE_FLAG, address & 0xFF, address >> 8]) + data
+    return REQUEST_HEADER + body + bytes([sum(body) & 0xFF])
+
+
+def build_read_packet(hand_id: int, address: int, length: int) -> bytes:
+    if not 1 <= hand_id <= 254:
+        raise ValueError("hand_id must be between 1 and 254")
+    if not 1 <= length <= 252:
+        raise ValueError("length must be between 1 and 252")
+    body = bytes([hand_id, 4, READ_FLAG, address & 0xFF, address >> 8, length])
     return REQUEST_HEADER + body + bytes([sum(body) & 0xFF])
 
 

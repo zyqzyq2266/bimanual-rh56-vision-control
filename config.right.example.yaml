@@ -1,0 +1,12 @@
+# Physical right hand in the mirrored camera image: MediaPipe label Left.
+# Calibrate every axis independently; do not copy the left-hand directions blindly.
+serial_port: COM4
+baudrate: 115200
+hand_id: 1
+motion_scale: 1.0
+send_hz: 10
+deadband: 8
+min_angles: [0, 0, 0, 0, 0, 0]
+max_angles: [1000, 1000, 1000, 1000, 1000, 1000]
+invert_axes: [false, false, false, false, false, false]
+open_pose: [1000, 1000, 1000, 1000, 1000, 1000]

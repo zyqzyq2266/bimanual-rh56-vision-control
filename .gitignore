@@ -7,6 +7,8 @@ __pycache__/
 
 # Local device calibration and Word lock files
 config.yaml
+config.left.yaml
+config.right.yaml
 ~$*.docx
 
 # Local analysis and render output
