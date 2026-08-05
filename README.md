@@ -78,7 +78,12 @@ For hardware control, close the Inspire desktop controller, verify that both han
 
 ## Demo
 
+
+
 https://github.com/user-attachments/assets/1f19b065-f330-492e-9e07-4d0c72f63753
+
+
+
 ## 双手同时跟随
 
 双手模式使用同一个摄像头窗口和两条独立串口。镜像画面中，MediaPipe 通常把物理左手标记为 `Right`、物理右手标记为 `Left`，程序按下表固定路由：
