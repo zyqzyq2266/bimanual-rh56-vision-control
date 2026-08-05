@@ -57,7 +57,9 @@ For hardware control, close the Inspire desktop controller, verify that both han
 
 ```powershell
 .\.venv\Scripts\python.exe -m hand_tracking.dual_app --left-config config.left.yaml --right-config config.right.yaml
-```## 关键实现与标定过程
+```
+
+## 关键实现与标定过程
 
 ### 镜像双手识别
 
