@@ -187,11 +187,14 @@ yinshi-dexterous-hand/
 
 ## 演示效果
 
-VID_20260804_172201.mp4)
-
 演示展示摄像头手部关键点识别与 RH56DFTP-2L 左手灵巧手的实时手指跟随效果。
 
-VID_20260804_172201.mp4
+
+https://github.com/user-attachments/assets/1f19b065-f330-492e-9e07-4d0c72f63753
+
+
+
+
 ## 项目文档
 
 ## 双手同时跟随
