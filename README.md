@@ -76,11 +76,13 @@ For hardware control, close the Inspire desktop controller, verify that both han
 有符号展开角控制内外运动。两只灵巧手可分别用各自配置中的第六项 `invert_axes` 校准方向。
 
 
-## Demo
+## 演示效果
 
+演示展示摄像头手部关键点识别与 RH56DFTP-2L 左手灵巧手的实时手指跟随效果。
 
 
 https://github.com/user-attachments/assets/1f19b065-f330-492e-9e07-4d0c72f63753
+
 
 
 
